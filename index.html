@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Pendaftaran dan Tabel Data</title>
+    <style>
+      /* Style untuk tab */
+      .tab {
+        display: none;
+      }
+
+      .tabs {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .tabs li {
+        margin-right: 10px;
+      }
+
+      .tabs a {
+        text-decoration: none;
+        padding: 5px 10px;
+        background-color: #ccc;
+        color: #333;
+        border-radius: 5px;
+      }
+
+      .tabs a.active {
+        background-color: #333;
+        color: #fff;
+      }
+
+      /* Style untuk form pendaftaran */
+      #formTab {
+        display: block;
+      }
+
+      /* Style untuk tabel */
+      #listTab {
+        display: none;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Form Pendaftaran dan Tabel Data</h1>
+
+    <!-- Tab navigation -->
+    <ul class="tabs">
+      <li>
+        <a href="#" onclick="openTab(event, 'formTab')" class="active"
+          >Form Pendaftaran</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="openTab(event, 'listTab')">List Pendaftaran</a>
+      </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div id="formTab" class="tab">
+      <h2>Form Pendaftaran</h2>
+      <form id="registrationForm">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" /><br /><br />
+        <label for="umur">Umur:</label>
+        <input type="text" id="umur" name="umur" /><br /><br />
+        <label for="uangSaku">Uang Saku:</label>
+        <input type="text" id="uangSaku" name="uangSaku" /><br /><br />
+        <button type="button" onclick="submitForm()">Submit</button>
+      </form>
+    </div>
+
+    <div id="listTab" class="tab">
+      <h2>List Pendaftaran</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Umur</th>
+            <th>Uang Saku</th>
+          </tr>
+        </thead>
+        <tbody id="dataTabel">
+          <!-- Data dari form akan ditampilkan di sini -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      // Fungsi untuk membuka tab
+      function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        document.getElementById(tabName).style.display = "block";
+
+        // Menandai tab yang aktif
+        tablinks = document.getElementsByTagName("a");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        evt.currentTarget.className += " active";
+      }
+
+      // Fungsi untuk menambahkan data ke tabel dengan validasi
+      function submitForm() {
+        var nama = document.getElementById("nama").value;
+        var umur = parseInt(document.getElementById("umur").value);
+        var uangSaku = parseInt(document.getElementById("uangSaku").value);
+
+        // Validasi input
+        if (nama.length > 10) {
+          alert("Nama maksimal 10 karakter!");
+          return;
+        }
+
+        if (umur < 25) {
+          alert("Umur minimal 25 tahun!");
+          return;
+        }
+
+        if (uangSaku < 100000 || uangSaku > 1000000) {
+          alert("Uang saku harus antara 100.000 dan 1.000.000!");
+          return;
+        }
+
+        this.addToTable(nama, umur, uangSaku);
+
+        // Clear form
+        document.getElementById("nama").value = "";
+        document.getElementById("umur").value = "";
+        document.getElementById("uangSaku").value = "";
+      }
+
+      // Fungsi untuk menambahkan data ke tabel
+      function addToTable(nama, umur, uangSaku) {
+        var table = document.getElementById("dataTabel");
+        var newRow = table.insertRow(table.rows.length);
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+
+        cell1.innerHTML = nama;
+        cell2.innerHTML = umur;
+        cell3.innerHTML = uangSaku;
+      }
+    </script>
+  </body>
+</html>
